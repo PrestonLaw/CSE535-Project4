@@ -24,6 +24,7 @@
     <label for="topicLabel">Topic</label>
     <select id="inputTopic" class="form-control">
       <option selected>Choose...</option>
+      <option>All</option>
       <option>Crime</option>
       <option>Environment</option>
       <option>Politics</option>
@@ -35,6 +36,7 @@
     <label for="langLabel">Language</label>
     <select id="inputLang" class="form-control">
       <option selected>Choose...</option>
+      <option>All</option>
       <option>English</option>
       <option>Hindi</option>
       <option>Thai</option>
@@ -46,6 +48,7 @@
     <label for="cityLabel">City</label>
     <select id="inputCity" class="form-control">
       <option selected>Choose...</option>
+      <option>All</option>
       <option>New York City</option>
       <option>Delhi</option>
       <option>Bangkok</option>
@@ -100,6 +103,7 @@ function search() {
         var fromDate = new Date(tempFrom + ' UTC');
         var languageCode = processLang(language);
         var fromSolr;
+        if(topic == "All") topic = "*";
          // send GET request
         let request = new XMLHttpRequest();
         request.open("GET", "http://45.62.212.13:8983/solr/cse535/select?indent=on&q=" + encodeURI(toSearch + ' AND ' + 'tweet_lang:' + languageCode + ' AND ' + 'topic: ' + topic.toLowerCase())+ "&wt=json", false); // the second parameter is for async
@@ -133,6 +137,9 @@ function processLang(input) {
         case "Spanish":
             return "es";
             break;
+        case "All":
+            return "*";
+            break;
         default:
             return "ERR";
     }
@@ -150,6 +157,9 @@ function processCity(input) {
             break;
         case "Paris":
             return "paris";
+            break;
+        case "All":
+            return "*";
             break;
         case "Mexico City":
             return "mexico city";

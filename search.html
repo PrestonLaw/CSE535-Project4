@@ -20,7 +20,7 @@
             <input name="subscribe-textarea" id="toSearch" class="form-control"  placeholder="To search..">
     </form>
     <div class="form-row">
-            <div class="col">        
+            <div class="col">
     <label for="topicLabel">Topic</label>
     <select id="inputTopic" class="form-control">
       <option selected>Choose...</option>
@@ -56,10 +56,10 @@
     </div>
     <label for="dateLabel">Date(e.g. 12/01/2018)</label>
     <div class="form-row">
-            <div class="col">        
+            <div class="col">
     <input name="subscribe-textarea" id="fromDate" class="form-control"  placeholder="From">
     </div>
-    <div class="col">  
+    <div class="col">
     <input name="subscribe-textarea" id="toDate" class="form-control"  placeholder="To">
     </div>
     </div>
@@ -100,21 +100,20 @@ function search() {
         var fromDate = new Date(tempFrom + ' UTC');
         var languageCode = processLang(language);
         var fromSolr;
-        alert(toDate.toISOString());
-        alert(languageCode);
-        // send GET request
+         // send GET request
         let request = new XMLHttpRequest();
-        request.open("GET", "http://45.62.212.13:8983/solr/cse535/select?indent=on&q=" + encodeURI(toSearch) + "&wt=json", false); // the second parameter is for async
+        request.open("GET", "http://45.62.212.13:8983/solr/cse535/select?indent=on&q=" + encodeURI(toSearch + ' AND ' + 'tweet_lang:' + languageCode + ' AND ' + 'topic: ' + topic.toLowerCase())+ "&wt=json", false); // the second parameter is for async
         request.onload = () => {fromSolr = JSON.parse(request.responseText)}
-        request.send(); 
+        request.send();
         var count = 1;
+        document.getElementById("resultDisplay").innerHTML = "";
         fromSolr['response']['docs'].forEach(function(doc){
             var pd2 = document.getElementById("resultDisplay").innerHTML;
             resultPrint = pd2 + "\n" + String(count) + ". " + doc["tweet_text"] + "<br>";
             document.getElementById("resultDisplay").innerHTML = resultPrint;
             count++;
         });
-        
+
     }
 }
 function processLang(input) {

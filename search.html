@@ -110,7 +110,7 @@ function search() {
         var count = 1;
         fromSolr['response']['docs'].forEach(function(doc){
             var pd2 = document.getElementById("resultDisplay").innerHTML;
-            resultPrint = pd2 + "\n" + String(count) + ". " + doc[tweet_text][0] + "<br>";
+            resultPrint = pd2 + "\n" + String(count) + ". " + doc["tweet_text"] + "<br>";
             document.getElementById("resultDisplay").innerHTML = resultPrint;
             count++;
         });

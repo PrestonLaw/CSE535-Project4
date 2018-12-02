@@ -99,13 +99,22 @@ function search() {
         var toDate = new Date(tempTo + ' UTC');
         var fromDate = new Date(tempFrom + ' UTC');
         var languageCode = processLang(language);
+        var fromSolr;
         alert(toDate.toISOString());
         alert(languageCode);
         // send GET request
         let request = new XMLHttpRequest();
         request.open("GET", "http://45.62.212.13:8983/solr/cse535/select?indent=on&q=" + encodeURI(toSearch) + "&wt=json", false); // the second parameter is for async
-        request.onload = () => {console.log(request.responseText)}
-        request.send();
+        request.onload = () => {fromSolr = JSON.parse(request.responseText)}
+        request.send(); 
+        var count = 1;
+        fromSolr['response']['docs'].forEach(function(doc){
+            var pd2 = document.getElementById("resultDisplay").innerHTML;
+            resultPrint = pd2 + "\n" + String(count) + ". " + doc[tweet_text][0] + "<br>";
+            document.getElementById("resultDisplay").innerHTML = resultPrint;
+            count++;
+        });
+        
     }
 }
 function processLang(input) {

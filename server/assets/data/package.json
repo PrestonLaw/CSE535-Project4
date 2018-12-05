@@ -1,0 +1,16 @@
+{
+  "name": "infocloud",
+  "version": "1.0.0",
+  "description": "UB cse535 Project4",
+  "main": "index.js",
+  "scripts": {
+    "test": "runtest"
+  },
+  "author": "plaw",
+  "license": "ISC",
+  "dependencies": {
+    "d3": "^5.7.0",
+    "jquery": "^3.3.1",
+    "wordcloud": "^1.1.0"
+  }
+}

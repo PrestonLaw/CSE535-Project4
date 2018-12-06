@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Solr search</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Solr search</a>
+</nav>
+<br>
+ 
+<div class="container">
+    <form method="POST">
+            <br>
+            <input name="subscribe-textarea" id="toSearch" class="form-control"  placeholder="To search..">
+    </form>
+    <div class="form-row">
+            <div class="col">
+    <label for="topicLabel">Topic</label>
+    <select id="inputTopic" class="form-control">
+      <option selected>Choose...</option>
+      <option>All</option>
+      <option>Crime</option>
+      <option>Environment</option>
+      <option>Politics</option>
+      <option>Social Unrest</option>
+      <option>Infrastructure</option>
+    </select>
+    </div>
+    <div class="col">
+    <label for="langLabel">Language</label>
+    <select id="inputLang" class="form-control">
+      <option selected>Choose...</option>
+      <option>All</option>
+      <option>English</option>
+      <option>Hindi</option>
+      <option>Thai</option>
+      <option>French</option>
+      <option>Spanish</option>
+    </select>
+</div>
+<div class="col">
+    <label for="cityLabel">City</label>
+    <select id="inputCity" class="form-control">
+      <option selected>Choose...</option>
+      <option>All</option>
+      <option>New York City</option>
+      <option>Delhi</option>
+      <option>Bangkok</option>
+      <option>Paris</option>
+      <option>Mexico City</option>
+    </select>
+    </div>
+    </div>
+    <label for="dateLabel">Date(e.g. 12/01/2018)</label>
+    <div class="form-row">
+            <div class="col">
+    <input name="subscribe-textarea" id="fromDate" class="form-control"  placeholder="From">
+    </div>
+    <div class="col">
+    <input name="subscribe-textarea" id="toDate" class="form-control"  placeholder="To">
+    </div>
+    </div>
+    <br>
+     <button onclick="search()" class="btn btn-primary" id="btn_sub">search</button>
+<div class="row">
+<div class="col-sm">
+    <br>
+        <label for="subscribe"><i>Results: </i></label>
+        <label name="statusDisplay-textarea" id="resultDisplay"></label>
+
+<br>
+<br>
+<br>
+</div>
+<div class="col-sm">
+<p><i>Info: </i></p>
+<label name="statusDisplay-textarea" id="statusDisplay"></label>
+</div>
+    </div>
+</div>
+<div id="canvas-container" style="float: left">
+        <canvas id="canvas" width="400px" height="400px"></canvas>
+    </div>
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script src="server/node_modules/wordfreq/src/wordfreq.js"></script>
+<script src="server/node_modules/wordcloud/src/wordcloud2.js"></script> 
+<script type="text/javascript">
+
+function search() {
+    var topic = document.getElementById("inputTopic").value;
+    var language = document.getElementById("inputLang").value;
+    var city = document.getElementById("inputCity").value;
+    var toSearch = document.getElementById("toSearch").value;
+    var tempFrom = document.getElementById("fromDate").value;
+    var tempTo = document.getElementById("toDate").value;
+    if(topic == "Choose..." || language == "Choose..." || city == "Choose..." || tempFrom == "From" || tempTo == "To")
+    {
+        alert("")
+    }
+    else
+    {
+        var toDate = new Date(tempTo + ' UTC');
+        var fromDate = new Date(tempFrom + ' UTC');
+        var languageCode = processLang(language);
+        var fromSolr;
+        if(topic == "All") topic = "*";
+         // send GET request
+        let request = new XMLHttpRequest();
+        request.open("GET", "http://45.62.212.13:8983/solr/cse535/select?indent=on&q=" + encodeURI(toSearch + ' AND ' + 'tweet_lang:' + languageCode + ' AND ' + 'topic: ' + topic.toLowerCase())+ "&wt=json", false); // the second parameter is for async
+        request.onload = () => {fromSolr = JSON.parse(request.responseText)}
+        request.send();
+        var count = 1;
+        var text = [];
+        var listOfText = []
+        document.getElementById("resultDisplay").innerHTML = "";
+        fromSolr['response']['docs'].forEach(function(doc){
+            var pd2 = document.getElementById("resultDisplay").innerHTML;
+            resultPrint = pd2 + "\n" + String(count) + ". " + doc["tweet_text"] + "<br>";
+            document.getElementById("resultDisplay").innerHTML = resultPrint;
+            count++;
+            text = text + " " +doc["tweet_text"].toString()
+            console.log(doc["tweet_date"].toString().substring(5,10))
+        });
+        // Create an options object for initialization
+        var options = {
+        workerUrl: 'server/node_modules/wordfreq/src/wordfreq.worker.js' };
+        // Initialize and run process() function
+        var wordfreq = WordFreq(options).process(text, function (list) {
+         // console.log the list returned in this callback.
+        console.log(list)
+        var wordFreqData = list;
+        var canvas = document.getElementById('canvas');
+        var options = eval({
+            "list": wordFreqData,//asd
+            "gridSize": 6, // 密集程度 数字越小越密集
+            "weightFactor": 20, // 字体大小=原始大小*weightFactor
+            "maxFontSize": 60, //最大字号
+            "minFontSize": 14, //最小字号
+            "fontWeight": 'normal', //字体粗细
+            "fontFamily": 'Times, serif', // 字体
+            "color": 'random-light', // 字体颜色 'random-dark' 或者 'random-light'
+            "backgroundColor": '#333', // 背景颜色
+            "rotateRatio": 1 // 字体倾斜(旋转)概率，1代表总是倾斜(旋转)
+        });
+    //生成
+        WordCloud(canvas, options);
+        console.log("Hello")})
+        sentiment()
+    }
+    
+}
+
+function sentiment(){
+var Sentiment = require('sentiment');
+var sentiment = new Sentiment();
+var result = sentiment.analyze('Cats are stupid.');
+console.dir(result);    // Score: -2, Comparative: -0.666›
+    // Radialize the colors
+Highcharts.setOptions({
+    colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+        return {
+            radialGradient: {
+                cx: 0.5,
+                cy: 0.3,
+                r: 0.7
+            },
+            stops: [
+                [0, color],
+                [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+            ]
+        };
+    })
+});
+
+// Build the chart
+Highcharts.chart('resultDisplay', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'Browser market shares in January, 2018'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                },
+                connectorColor: 'silver'
+            }
+        }
+    },
+    series: [{
+        name: 'Share',
+        data: [
+            { name: 'Chrome', y: 61.41 },
+            { name: 'Internet Explorer', y: 11.84 },
+            { name: 'Firefox', y: 10.85 },
+            { name: 'Edge', y: 4.67 },
+            { name: 'Safari', y: 4.18 },
+            { name: 'Other', y: 7.05 }
+        ]
+    }]
+});
+}
+
+
+
+
+function processLang(input) {
+    switch(input){
+        case "English":
+            return "en";
+            break;
+        case "Hindi":
+            return "hi";
+            break;
+        case "Thai":
+            return "th";
+            break;
+        case "French":
+            return "fr";
+            break;
+        case "Spanish":
+            return "es";
+            break;
+        case "All":
+            return "*";
+            break;
+        default:
+            return "ERR";
+    }
+}
+function processCity(input) {
+    switch(input){
+        case "New York City":
+            return "nyc";
+            break;
+        case "Delhi":
+            return "delhi";
+            break;
+        case "Bangkok":
+            return "bangkok";
+            break;
+        case "Paris":
+            return "paris";
+            break;
+        case "All":
+            return "*";
+            break;
+        case "Mexico City":
+            return "mexico city";
+            break;
+        default:
+            return "ERR";
+    }
+}
+
+</script>
+</body>
+</html>

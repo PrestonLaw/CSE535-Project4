@@ -113,7 +113,12 @@ function search() {
         document.getElementById("resultDisplay").innerHTML = "";
         fromSolr['response']['docs'].forEach(function(doc){
             var pd2 = document.getElementById("resultDisplay").innerHTML;
-            resultPrint = pd2 + "\n" + String(count) + ". " + doc["tweet_text"] + "<br>";
+            if(doc["tweet_urls"] == undefined){
+                resultPrint = pd2 + "\n" + String(count) + ". " + doc["tweet_text"] + "<br>";
+            }
+            else{
+            resultPrint = pd2 + "\n" + String(count) + ". " + doc["tweet_text"] + "<br>" + "Link: " + "<a href=\"" + doc["tweet_urls"] + "\">" + doc["tweet_urls"] + "</a>"+ "<br>";
+            }
             document.getElementById("resultDisplay").innerHTML = resultPrint;
             count++;
         });

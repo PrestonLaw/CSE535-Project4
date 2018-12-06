@@ -4,7 +4,7 @@ var stopwords = ["a", "about", "above", "after", "again", "against", "all", "am"
 var test = function() {
     var url = "assets/data/crime_word_cloud.json"
 
-    var search_url = 'http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=environment&wt=json'
+    var search_url = 'search/solr/p4/select?indent=on&q=environment&wt=json'
 
 
     d3.json(search_url, function (resp) {

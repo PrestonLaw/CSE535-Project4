@@ -1,7 +1,15 @@
 from textblob import TextBlob
-
 import pdb
 import json
+
+
+# Author: Preston Law
+# 12/01/2018
+
+
+# A script that loads all_tweets.json and performs sentiment analysis on onn tweets.
+# New fields 'polarity' and 'subjectivity' are add to the tweets.
+# A new file 'all_tweets2.json' is saved out.
 
 
 

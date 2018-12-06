@@ -56,7 +56,7 @@ var main = function() {
 	
         //window.alert("q=" + searchstring)
 
-        var search_url = 'http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=' + searchstring + '&wt=json'
+        var search_url = 'search/solr/p4/select?indent=on&q=' + searchstring + '&wt=json'
 
         d3.json(search_url, function (resp) {
             //data = resp.response.docs

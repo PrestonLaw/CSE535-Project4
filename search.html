@@ -106,7 +106,7 @@ function search() {
         if(topic == "All") topic = "*";
          // send GET request
         let request = new XMLHttpRequest();
-        request.open("GET", "http://45.62.212.13:8983/solr/cse535/select?indent=on&q=" + encodeURI(toSearch + ' AND ' + 'tweet_lang:' + languageCode + ' AND ' + 'topic: ' + topic.toLowerCase())+ "&wt=json", false); // the second parameter is for async
+        request.open("GET", "http://45.62.212.13:8983/solr/cse535/select?indent=on&q=" + encodeURI(toSearch + ' AND ' + 'tweet_lang:' + languageCode + ' AND ' + 'topic: ' + topic.toLowerCase()+ "&fq=tweet_date:[" + fromDate.toISOString() + " TO " + toDate.toISOString() +"]") + "&wt=json", false); // the second parameter is for async
         request.onload = () => {fromSolr = JSON.parse(request.responseText)}
         request.send();
         var count = 1;

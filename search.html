@@ -80,7 +80,7 @@
 </div>
 <div class="col-sm">
 <p><i>Info: </i></p>
-<label name="statusDisplay-textarea" id="statusDisplay"></label>
+<label name="statusDisplay-textarea" id="infoDisplay"></label>
 </div>
     </div>
 </div>
@@ -111,7 +111,11 @@ function search() {
         request.send();
         var count = 1;
         document.getElementById("resultDisplay").innerHTML = "";
+        var addAllPolarity = 0.0;
+        var addAllSubjectivity = 0.0;
         fromSolr['response']['docs'].forEach(function(doc){
+            addAllPolarity = addAllPolarity + parseFloat(doc["polarity"]);
+            addAllSubjectivity = addAllSubjectivity + parseFloat(doc["subjectivity"]);
             var pd2 = document.getElementById("resultDisplay").innerHTML;
             if(doc["tweet_urls"] == undefined){
                 resultPrint = pd2 + "\n" + String(count) + ". " + doc["tweet_text"] + "<br>";
@@ -122,7 +126,12 @@ function search() {
             document.getElementById("resultDisplay").innerHTML = resultPrint;
             count++;
         });
-
+        var averagePolarity = addAllPolarity / count;
+        alert(averagePolarity);
+        var averageSubjectivity = addAllSubjectivity / count;
+        var info = document.getElementById("infoDisplay").innerHTML;
+        infoPrint = info + "\n" + "Average polarity: " + String(averagePolarity) + "<br>" + "Average subjectivity: " + String(averageSubjectivity);
+        document.getElementById("infoDisplay").innerHTML = infoPrint;
     }
 }
 function processLang(input) {

@@ -81,10 +81,13 @@
 <div class="col-sm">
 <p><i>Info: </i></p>
 <label name="statusDisplay-textarea" id="infoDisplay"></label>
+<canvas id="myChart" width="200px" height="200px"></canvas>
+
 </div>
     </div>
 </div>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js" ></script>
 <script type="text/javascript">
 function search() {
     var topic = document.getElementById("inputTopic").value;
@@ -113,8 +116,15 @@ function search() {
         document.getElementById("resultDisplay").innerHTML = "";
         var addAllPolarity = 0.0;
         var addAllSubjectivity = 0.0;
+        var neutral = 0;
+        var negative = 0;
+        var positive = 0;
         fromSolr['response']['docs'].forEach(function(doc){
-            addAllPolarity = addAllPolarity + parseFloat(doc["polarity"]);
+            tweetPolarity = parseFloat(doc["polarity"]);
+            addAllPolarity = addAllPolarity + tweetPolarity;
+            if(tweetPolarity > 0) positive++;
+            if(tweetPolarity < 0) negative++;
+            if(tweetPolarity == 0) neutral++;
             addAllSubjectivity = addAllSubjectivity + parseFloat(doc["subjectivity"]);
             var pd2 = document.getElementById("resultDisplay").innerHTML;
             if(doc["tweet_urls"] == undefined){
@@ -127,13 +137,51 @@ function search() {
             count++;
         });
         var averagePolarity = addAllPolarity / count;
-        alert(averagePolarity);
         var averageSubjectivity = addAllSubjectivity / count;
-        var info = document.getElementById("infoDisplay").innerHTML;
-        infoPrint = info + "\n" + "Average polarity: " + String(averagePolarity) + "<br>" + "Average subjectivity: " + String(averageSubjectivity);
+        infoPrint = "" + "\n" + "Average polarity: " + String(averagePolarity) + "<br>" + "Average subjectivity: " + String(averageSubjectivity);
         document.getElementById("infoDisplay").innerHTML = infoPrint;
+        var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["Negative", "Neutral", "Positive"],
+        datasets: [{
+            label: '# of tweets',
+            data: [negative, neutral, positive],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
     }
 }
+
+
 function processLang(input) {
     switch(input){
         case "English":

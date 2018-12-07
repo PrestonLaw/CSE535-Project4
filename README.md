@@ -57,6 +57,10 @@ tweets have the form:
 Solr has to be served on the same port as the web server, or cross origin security checks will keep the data from loading.
 This can be accomplished with nginx.
 
+
+
+
+The nginx config file is located in "/etc/nginx/conf.d/default.conf", or can be a second file in that directory.
 The config file should look something like:
 
 server {

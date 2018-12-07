@@ -1,0 +1,246 @@
+topic,date,count
+crime,2018-10-15,27
+crime,2018-10-16,1101
+crime,2018-10-17,1318
+crime,2018-10-18,1363
+crime,2018-10-19,1584
+crime,2018-10-20,1229
+crime,2018-10-21,1170
+crime,2018-10-22,1490
+crime,2018-10-23,1372
+crime,2018-10-24,857
+crime,2018-10-25,990
+crime,2018-10-26,1000
+crime,2018-10-27,2689
+crime,2018-10-28,2393
+crime,2018-10-29,2349
+crime,2018-10-30,1406
+crime,2018-10-31,1299
+crime,2018-11-01,1598
+crime,2018-11-02,1650
+crime,2018-11-03,1408
+crime,2018-11-04,1100
+crime,2018-11-05,1325
+crime,2018-11-06,1181
+crime,2018-11-07,1135
+crime,2018-11-08,3853
+crime,2018-11-09,41840
+crime,2018-11-10,1104
+crime,2018-11-11,1059
+crime,2018-11-12,1278
+crime,2018-11-13,1345
+crime,2018-11-14,1287
+crime,2018-11-15,1452
+crime,2018-11-16,1305
+crime,2018-11-17,948
+crime,2018-11-18,798
+crime,2018-11-19,1210
+crime,2018-11-20,1654
+crime,2018-11-21,1311
+crime,2018-11-22,984
+crime,2018-11-23,972
+crime,2018-11-24,1043
+crime,2018-11-25,947
+crime,2018-11-26,1280
+crime,2018-11-27,970
+crime,2018-11-28,879
+crime,2018-11-29,1563
+crime,2018-11-30,1445
+crime,2018-12-01,1021
+crime,2018-12-02,680
+environment,2018-10-15,803
+environment,2018-10-16,1147
+environment,2018-10-17,1143
+environment,2018-10-18,1266
+environment,2018-10-19,1146
+environment,2018-10-20,719
+environment,2018-10-21,654
+environment,2018-10-22,1145
+environment,2018-10-23,1292
+environment,2018-10-24,1186
+environment,2018-10-25,1169
+environment,2018-10-26,693
+environment,2018-10-27,522
+environment,2018-10-28,596
+environment,2018-10-29,1221
+environment,2018-10-30,1465
+environment,2018-10-31,1299
+environment,2018-11-01,1123
+environment,2018-11-02,1006
+environment,2018-11-03,3036
+environment,2018-11-04,3363
+environment,2018-11-05,5515
+environment,2018-11-06,4581
+environment,2018-11-07,4248
+environment,2018-11-08,1264
+environment,2018-11-09,1172
+environment,2018-11-10,1072
+environment,2018-11-11,888
+environment,2018-11-12,1467
+environment,2018-11-13,1815
+environment,2018-11-14,1659
+environment,2018-11-15,1497
+environment,2018-11-16,1504
+environment,2018-11-17,810
+environment,2018-11-18,750
+environment,2018-11-19,1256
+environment,2018-11-20,1413
+environment,2018-11-21,1239
+environment,2018-11-22,1429
+environment,2018-11-23,1374
+environment,2018-11-24,1288
+environment,2018-11-25,1075
+environment,2018-11-26,1852
+environment,2018-11-27,1941
+environment,2018-11-28,1879
+environment,2018-11-29,1485
+environment,2018-11-30,1384
+environment,2018-12-01,721
+environment,2018-12-02,379
+infrastructure,2018-10-15,212
+infrastructure,2018-10-16,466
+infrastructure,2018-10-17,483
+infrastructure,2018-10-18,458
+infrastructure,2018-10-19,407
+infrastructure,2018-10-20,235
+infrastructure,2018-10-21,226
+infrastructure,2018-10-22,448
+infrastructure,2018-10-23,456
+infrastructure,2018-10-24,376
+infrastructure,2018-10-25,422
+infrastructure,2018-10-26,364
+infrastructure,2018-10-27,225
+infrastructure,2018-10-28,254
+infrastructure,2018-10-29,1012
+infrastructure,2018-10-30,993
+infrastructure,2018-10-31,1037
+infrastructure,2018-11-01,890
+infrastructure,2018-11-02,906
+infrastructure,2018-11-03,661
+infrastructure,2018-11-04,462
+infrastructure,2018-11-05,741
+infrastructure,2018-11-06,896
+infrastructure,2018-11-07,956
+infrastructure,2018-11-08,970
+infrastructure,2018-11-09,964
+infrastructure,2018-11-10,574
+infrastructure,2018-11-11,547
+infrastructure,2018-11-12,924
+infrastructure,2018-11-13,1372
+infrastructure,2018-11-14,1212
+infrastructure,2018-11-15,910
+infrastructure,2018-11-16,983
+infrastructure,2018-11-17,507
+infrastructure,2018-11-18,476
+infrastructure,2018-11-19,761
+infrastructure,2018-11-20,901
+infrastructure,2018-11-21,926
+infrastructure,2018-11-22,742
+infrastructure,2018-11-23,640
+infrastructure,2018-11-24,691
+infrastructure,2018-11-25,713
+infrastructure,2018-11-26,965
+infrastructure,2018-11-27,936
+infrastructure,2018-11-28,928
+infrastructure,2018-11-29,631
+infrastructure,2018-11-30,664
+infrastructure,2018-12-01,418
+infrastructure,2018-12-02,155
+politics,2018-10-15,3481
+politics,2018-10-16,5639
+politics,2018-10-17,6445
+politics,2018-10-18,6447
+politics,2018-10-19,6284
+politics,2018-10-20,4693
+politics,2018-10-21,4873
+politics,2018-10-22,4837
+politics,2018-10-23,4115
+politics,2018-10-24,4435
+politics,2018-10-25,4566
+politics,2018-10-26,3327
+politics,2018-10-27,2355
+politics,2018-10-28,3014
+politics,2018-10-29,4479
+politics,2018-10-30,5037
+politics,2018-10-31,3388
+politics,2018-11-01,4274
+politics,2018-11-02,3245
+politics,2018-11-03,2828
+politics,2018-11-04,3441
+politics,2018-11-05,4383
+politics,2018-11-06,5101
+politics,2018-11-07,6651
+politics,2018-11-08,4047
+politics,2018-11-09,5135
+politics,2018-11-10,3733
+politics,2018-11-11,3042
+politics,2018-11-12,4323
+politics,2018-11-13,4485
+politics,2018-11-14,5339
+politics,2018-11-15,5078
+politics,2018-11-16,2987
+politics,2018-11-17,2354
+politics,2018-11-18,3396
+politics,2018-11-19,4458
+politics,2018-11-20,4581
+politics,2018-11-21,5316
+politics,2018-11-22,4282
+politics,2018-11-23,3703
+politics,2018-11-24,3426
+politics,2018-11-25,3896
+politics,2018-11-26,5353
+politics,2018-11-27,5361
+politics,2018-11-28,4953
+politics,2018-11-29,5840
+politics,2018-11-30,5508
+politics,2018-12-01,5396
+politics,2018-12-02,3451
+social unrest,2018-10-15,241
+social unrest,2018-10-16,414
+social unrest,2018-10-17,416
+social unrest,2018-10-18,325
+social unrest,2018-10-19,319
+social unrest,2018-10-20,329
+social unrest,2018-10-21,350
+social unrest,2018-10-22,428
+social unrest,2018-10-23,351
+social unrest,2018-10-24,340
+social unrest,2018-10-25,331
+social unrest,2018-10-26,701
+social unrest,2018-10-27,551
+social unrest,2018-10-28,428
+social unrest,2018-10-29,557
+social unrest,2018-10-30,571
+social unrest,2018-10-31,634
+social unrest,2018-11-01,750
+social unrest,2018-11-02,566
+social unrest,2018-11-03,292
+social unrest,2018-11-04,280
+social unrest,2018-11-05,419
+social unrest,2018-11-06,280
+social unrest,2018-11-07,175
+social unrest,2018-11-08,740
+social unrest,2018-11-09,629
+social unrest,2018-11-10,403
+social unrest,2018-11-11,433
+social unrest,2018-11-12,534
+social unrest,2018-11-13,525
+social unrest,2018-11-14,552
+social unrest,2018-11-15,452
+social unrest,2018-11-16,452
+social unrest,2018-11-17,455
+social unrest,2018-11-18,338
+social unrest,2018-11-19,352
+social unrest,2018-11-20,493
+social unrest,2018-11-21,441
+social unrest,2018-11-22,443
+social unrest,2018-11-23,398
+social unrest,2018-11-24,410
+social unrest,2018-11-25,394
+social unrest,2018-11-26,459
+social unrest,2018-11-27,504
+social unrest,2018-11-28,469
+social unrest,2018-11-29,606
+social unrest,2018-11-30,1022
+social unrest,2018-12-01,1902
+social unrest,2018-12-02,761

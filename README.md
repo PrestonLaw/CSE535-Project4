@@ -88,7 +88,8 @@ server {
 }
 
 The code below has to be added after <web-app> tag in solr-x.x.x/server/solr-webapp/webapp/WEB-INF/web.xml
-	
+
+```xml
 <filter>
   <filter-name>cross-origin</filter-name>
   <filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
@@ -110,6 +111,7 @@ The code below has to be added after <web-app> tag in solr-x.x.x/server/solr-web
   <filter-name>cross-origin</filter-name>
   <url-pattern>/*</url-pattern>
 </filter-mapping>
+```
 			    
 
 

@@ -86,6 +86,32 @@ server {
         proxy_pass http://localhost:8983/;
     }
 }
+
+The code below has to be added after ``` <web-app> ``` tag in solr-x.x.x/server/solr-webapp/webapp/WEB-INF/web.xml
+
+```xml
+<filter>
+  <filter-name>cross-origin</filter-name>
+  <filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
+  <init-param>
+    <param-name>allowedOrigins</param-name>
+    <param-value>*</param-value>
+  </init-param>
+  <init-param>
+    <param-name>allowedMethods</param-name>
+    <param-value>GET,POST,OPTIONS,DELETE,PUT,HEAD</param-value>
+  </init-param>
+  <init-param>
+    <param-name>allowedHeaders</param-name>
+    <param-value>origin, content-type, accept</param-value>
+  </init-param>
+</filter>
+
+<filter-mapping>
+  <filter-name>cross-origin</filter-name>
+  <url-pattern>/*</url-pattern>
+</filter-mapping>
+```
 			    
 
 

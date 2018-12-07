@@ -87,7 +87,7 @@ server {
     }
 }
 
-The code below has to be added after <web-app> tag in solr-x.x.x/server/solr-webapp/webapp/WEB-INF/web.xml
+The code below has to be added after ``` <web-app> ``` tag in solr-x.x.x/server/solr-webapp/webapp/WEB-INF/web.xml
 
 ```xml
 <filter>

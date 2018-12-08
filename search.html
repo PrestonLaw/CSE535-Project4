@@ -12,7 +12,6 @@
 <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Solr search</a>
 </nav>
-<br>
 
 <div class="container">
     <form method="POST">
@@ -109,7 +108,7 @@ function search() {
         if(topic == "All") topic = "*";
          // send GET request
         let request = new XMLHttpRequest();
-        request.open("GET", "http://45.62.212.13:8983/solr/cse535/select?indent=on&q=" + encodeURI(toSearch + ' AND ' + 'tweet_lang:' + languageCode + ' AND ' + 'topic: ' + topic.toLowerCase()+ "&fq=tweet_date:[" + fromDate.toISOString() + " TO " + toDate.toISOString() +"]") + "&wt=json", false); // the second parameter is for async
+        request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=" + encodeURI(toSearch + ' AND ' + 'tweet_lang:' + languageCode + ' AND ' + 'topic: ' + topic.toLowerCase()+ "&fq=tweet_date:[" + fromDate.toISOString() + " TO " + toDate.toISOString() +"]") + "&wt=json", false); // the second parameter is for async
         request.onload = () => {fromSolr = JSON.parse(request.responseText)}
         request.send();
         var count = 1;

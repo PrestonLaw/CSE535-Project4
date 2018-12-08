@@ -22,8 +22,7 @@
             <div class="col">
     <label for="topicLabel">Topic</label>
     <select id="inputTopic" class="form-control">
-      <option selected>Choose...</option>
-      <option>All</option>
+      <option selected>All</option>
       <option>Crime</option>
       <option>Environment</option>
       <option>Politics</option>
@@ -34,8 +33,7 @@
     <div class="col">
     <label for="langLabel">Language</label>
     <select id="inputLang" class="form-control">
-      <option selected>Choose...</option>
-      <option>All</option>
+      <option selected>All</option>
       <option>English</option>
       <option>Hindi</option>
       <option>Thai</option>
@@ -46,8 +44,7 @@
 <div class="col">
     <label for="cityLabel">City</label>
     <select id="inputCity" class="form-control">
-      <option selected>Choose...</option>
-      <option>All</option>
+      <option selected>All</option>
       <option>New York City</option>
       <option>Delhi</option>
       <option>Bangkok</option>
@@ -95,7 +92,7 @@ function search() {
     var toSearch = document.getElementById("toSearch").value;
     var tempFrom = document.getElementById("fromDate").value;
     var tempTo = document.getElementById("toDate").value;
-    if(topic == "Choose..." || language == "Choose..." || city == "Choose..." || tempFrom == "From" || tempTo == "To")
+    if(tempFrom == "From" || tempTo == "To" || topic == "")
     {
         alert("")
     }

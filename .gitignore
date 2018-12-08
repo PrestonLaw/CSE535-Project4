@@ -1,2 +1,5 @@
 all_tweets.json
 server/nohup.out
+*~
+server/*~
+server/assets/js/*~

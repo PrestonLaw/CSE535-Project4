@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <title>CloudInfo Line Graph Search</title>
+
+    <!-- The jQuery library -->
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <!-- The d3 library -->
+    <script src = "https://d3js.org/d3.v4.min.js"></script>
+    <!-- Including our own JavaScript file -->
+    <script src="assets/js/linegraphsearch.js"></script>
+
+  </head>
+  <body BGCOLOR="F0F0FF" onload="loadFunction()">
+
+
+    <script>
+      var loadFunction = function() {
+        console.log('loaded')
+        linegraphsearch();
+      }
+    </script>
+
+
+    <input type="text" id="search2"/><br>
+    <button type="button" id="mysubmit">Search</button>
+
+    
+  </body>
+</html>

@@ -102,10 +102,11 @@ function search() {
         var fromDate = new Date(tempFrom + ' UTC');
         var languageCode = processLang(language);
         var fromSolr;
+        var cityProcessed = processCity(city);
         if(topic == "All") topic = "*";
          // send GET request
         let request = new XMLHttpRequest();
-        request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=" + encodeURI(toSearch + ' AND ' + 'tweet_lang:' + languageCode + ' AND ' + 'topic: ' + topic.toLowerCase()+ "&fq=tweet_date:[" + fromDate.toISOString() + " TO " + toDate.toISOString() +"]") + "&sort=score desc" + "&wt=json", false); // the second parameter is for async
+        request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=" + encodeURI(toSearch + ' AND ' + 'city:' + cityProcessed +' AND ' + 'tweet_lang:' + languageCode + ' AND ' + ' topic: ' + topic.toLowerCase()+ "&fq=tweet_date:[" + fromDate.toISOString() + " TO " + toDate.toISOString() +"]") + "&sort=score desc" + "&wt=json", false); // the second parameter is for async
         request.onload = () => {fromSolr = JSON.parse(request.responseText)}
         request.send();
         var count = 1;
@@ -221,6 +222,9 @@ function processCity(input) {
             break;
         case "Mexico City":
             return "mexico city";
+            break;
+        case "All":
+            return "*";
             break;
         default:
             return "ERR";

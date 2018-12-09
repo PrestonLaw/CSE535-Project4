@@ -125,10 +125,26 @@ function search() {
             addAllSubjectivity = addAllSubjectivity + parseFloat(doc["subjectivity"]);
             var pd2 = document.getElementById("resultDisplay").innerHTML;
             if(doc["tweet_urls"] == undefined){
-                resultPrint = pd2 + "\n" + String(count) + ". " + doc["tweet_text"] + "<br>";
+                if(doc["tweet_lang"] == "en")
+                {
+                    resultPrint = pd2 + "\n" + String(count) + ". " + doc["tweet_text"] + "<br>";
+                }
+                else
+                {
+                    resultPrint = pd2 + "\n" + String(count) + ". " + doc["tweet_text"] + "<br>";
+                    resultPrint = resultPrint + "<small>Translation: " + doc["translation"] + "</small><br>";
+                }
             }
             else{
-            resultPrint = pd2 + "\n" + String(count) + ". " + doc["tweet_text"] + "<br>" + "Link: " + "<a href=\"" + doc["tweet_urls"] + "\">" + doc["tweet_urls"] + "</a>"+ "<br>";
+            if(doc["tweet_lang"] == "en")
+            {
+                resultPrint = pd2 + "\n" + String(count) + ". " + doc["tweet_text"] + "<br><small>" + "Link: " + "<a href=\"" + doc["tweet_urls"] + "\">" + doc["tweet_urls"] + "</a>"+ "</small><br>";
+            }
+            else
+            {
+                resultPrint = pd2 + "\n" + String(count) + ". " + doc["tweet_text"] + "<br><small>" + "Link: " + "<a href=\"" + doc["tweet_urls"] + "\">" + doc["tweet_urls"] + "</a>"+ "</small><br>";
+                resultPrint = resultPrint + "<small>Translation: " + doc["translation"] + "</small><br>";
+            }
             }
             document.getElementById("resultDisplay").innerHTML = resultPrint;
             count++;

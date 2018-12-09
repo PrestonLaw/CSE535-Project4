@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Solr search</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+
+<body>
+        <nav class="navbar navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">Solr search</a>
+                <ul class="nav nav-pills">
+                        <li class="nav-item">
+                          <a class="nav-link " data-toggle="pill" href="search.html">Search</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="pill" href="index.html">Statistic</a>
+                        </li>
+                      </ul>
+                      </nav>
+            <br>
+<div class="container">
+
+        <div class="form-row">
+                <div class="col">
+        <label for="topicLabel">Topic</label>
+        <canvas id="topicChart" width="200px" height="200px"></canvas>
+    
+        </div>
+        <div class="col">
+        <label for="languageLabel">Language</label>
+        <canvas id="langChart" width="200px" height="200px"></canvas>
+        </div>
+        <div class="col">
+                <label for="languageLabel">City</label>
+                <canvas id="cityChart" width="200px" height="200px"></canvas>
+                </div>        
+        </div>
+<div class="form-row">
+        <div class="col">
+                <label for="subLabel">Subjectivity</label>
+                <canvas id="subChart" width="200px" height="200px"></canvas>
+        </div>
+        <div class="col">
+                <label for="subLabel">Polarity</label>
+        <canvas id="myChart" width="200px" height="200px"></canvas>
+        </div>
+    </div>
+
+        </div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js" ></script>
+<script type="text/javascript">
+    let request = new XMLHttpRequest();
+
+    // topic: Infrastructure
+    var infraSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=topic:infrastructure&wt=json", false); // the second parameter is for async
+        request.onload = () => {infraSolr = JSON.parse(request.responseText)}
+        request.send();
+    var infraNumber = parseInt(infraSolr['response']['numFound']);
+
+    // topic: crime
+    var crimeSolr;
+    var crimeNumber = 0;
+        request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=" + encodeURI('topic:' + "crime") + "&wt=json", false); // the second parameter is for async
+        request.onload = () => {crimeSolr = JSON.parse(request.responseText)}
+        request.send();
+    crimeNumber = parseInt(crimeSolr['response']['numFound']);
+
+    // topic: Politics
+    var politicsSolr;
+    var politicsNumber = 0;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=" + encodeURI('topic:' + "politics") + "&wt=json", false); // the second parameter is for async
+        request.onload = () => {politicsSolr = JSON.parse(request.responseText)}
+        request.send();
+    politicsNumber = parseInt(politicsSolr['response']['numFound']);
+   
+    // topic: Social Unrest
+    var socialSolr;
+    var socialNumber = 0;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=topic:social%20unrest&wt=json", false); // the second parameter is for async
+        request.onload = () => {socialSolr = JSON.parse(request.responseText)}
+        request.send();
+        console.log(socialSolr['response']['numFound']);
+        socialNumber = parseInt(socialSolr['response']['numFound']);
+
+    
+    new Chart(document.getElementById("topicChart"), {
+    type: 'pie',
+    data: {
+      labels: ["Crime", "Politics", "Social Unrest", "Infrastructure"],
+      datasets: [{
+        label: "# of Tweets",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
+        data: [crimeNumber,politicsNumber,socialNumber,infraNumber]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: '# of tweets by topic'
+      }
+    }
+});
+
+    var enSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=tweet_lang:en&wt=json", false); // the second parameter is for async
+        request.onload = () => {enSolr = JSON.parse(request.responseText)}
+        request.send();
+    var enNumber = parseInt(enSolr['response']['numFound']);
+    var frSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=tweet_lang:fr&wt=json", false); // the second parameter is for async
+        request.onload = () => {frSolr = JSON.parse(request.responseText)}
+        request.send();
+    var frNumber = parseInt(frSolr['response']['numFound']);
+
+    var thSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=tweet_lang:th&wt=json", false); // the second parameter is for async
+        request.onload = () => {thSolr = JSON.parse(request.responseText)}
+        request.send();
+    var thNumber = parseInt(thSolr['response']['numFound']);
+    
+    var hiSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=tweet_lang:hi&wt=json", false); // the second parameter is for async
+        request.onload = () => {hiSolr = JSON.parse(request.responseText)}
+        request.send();
+    var hiNumber = parseInt(hiSolr['response']['numFound']);
+
+    var esSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=tweet_lang:es&wt=json", false); // the second parameter is for async
+        request.onload = () => {esSolr = JSON.parse(request.responseText)}
+        request.send();
+    var esNumber = parseInt(esSolr['response']['numFound']);
+
+    new Chart(document.getElementById("langChart"), {
+    type: 'pie',
+    data: {
+      labels: ["English", "French", "Spanish", "Thai", "Hindi"],
+      datasets: [{
+        label: "# of Tweets",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+        data: [enNumber,frNumber,esNumber,thNumber,hiNumber]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: '# of tweets by language'
+      }
+    }
+});
+
+    var nySolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=city:nyc&wt=json", false); // the second parameter is for async
+        request.onload = () => {nySolr = JSON.parse(request.responseText)}
+        request.send();
+    var nyNumber = parseInt(nySolr['response']['numFound']);
+
+    var prSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=city:paris&wt=json", false); // the second parameter is for async
+        request.onload = () => {prSolr = JSON.parse(request.responseText)}
+        request.send();
+    var prNumber = parseInt(prSolr['response']['numFound']);
+
+    var bkSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=city:bangkok&wt=json", false); // the second parameter is for async
+        request.onload = () => {bkSolr = JSON.parse(request.responseText)}
+        request.send();
+    var bkNumber = parseInt(bkSolr['response']['numFound']);
+    
+    var dlSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=city:delhi&wt=json", false); // the second parameter is for async
+        request.onload = () => {dlSolr = JSON.parse(request.responseText)}
+        request.send();
+    var dlNumber = parseInt(dlSolr['response']['numFound']);
+
+    var mxSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=city:mexico%20city&wt=json", false); // the second parameter is for async
+        request.onload = () => {mxSolr = JSON.parse(request.responseText)}
+        request.send();
+    var mxNumber = parseInt(mxSolr['response']['numFound']);
+
+    new Chart(document.getElementById("cityChart"), {
+    type: 'pie',
+    data: {
+      labels: ["New York City", "Delhi", "Bangkok", "Paris", "Mexico City"],
+      datasets: [{
+        label: "# of Tweets",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+        data: [nyNumber,dlNumber,bkNumber,prNumber,mxNumber]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: '# of tweets by city'
+      }
+    }
+});
+
+    var oneSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?fq=subjectivity:[0%20TO%200.09999999999]&indent=on&q=*:*&wt=json", false); // the second parameter is for async
+        request.onload = () => {oneSolr = JSON.parse(request.responseText)}
+        request.send();
+    var oneNumber = parseInt(oneSolr['response']['numFound']);
+
+    var twoSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?fq=subjectivity:[0.1%20TO%200.19999999999]&indent=on&q=*:*&wt=json", false); // the second parameter is for async
+        request.onload = () => {twoSolr = JSON.parse(request.responseText)}
+        request.send();
+    var twoNumber = parseInt(twoSolr['response']['numFound']);
+
+    var threeSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?fq=subjectivity:[0.2%20TO%200.29999999999]&indent=on&q=*:*&wt=json", false); // the second parameter is for async
+        request.onload = () => {threeSolr = JSON.parse(request.responseText)}
+        request.send();
+    var threeNumber = parseInt(threeSolr['response']['numFound']);
+
+    var fourSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?fq=subjectivity:[0.3%20TO%200.39999999999]&indent=on&q=*:*&wt=json", false); // the second parameter is for async
+        request.onload = () => {fourSolr = JSON.parse(request.responseText)}
+        request.send();
+    var fourNumber = parseInt(fourSolr['response']['numFound']);
+
+        var fiveSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?fq=subjectivity:[0.4%20TO%200.49999999999]&indent=on&q=*:*&wt=json", false); // the second parameter is for async
+        request.onload = () => {fiveSolr = JSON.parse(request.responseText)}
+        request.send();
+    var fiveNumber = parseInt(fiveSolr['response']['numFound']);
+
+    var sixSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?fq=subjectivity:[0.5%20TO%200.59999999999]&indent=on&q=*:*&wt=json", false); // the second parameter is for async
+        request.onload = () => {sixSolr = JSON.parse(request.responseText)}
+        request.send();
+    var sixNumber = parseInt(sixSolr['response']['numFound']);
+
+        var sevenSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?fq=subjectivity:[0.6%20TO%200.6999999999]&indent=on&q=*:*&wt=json", false); // the second parameter is for async
+        request.onload = () => {sevenSolr = JSON.parse(request.responseText)}
+        request.send();
+    var sevenNumber = parseInt(sevenSolr['response']['numFound']);
+
+    var eightSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?fq=subjectivity:[0.7%20TO%200.79999999999]&indent=on&q=*:*&wt=json", false); // the second parameter is for async
+        request.onload = () => {eightSolr = JSON.parse(request.responseText)}
+        request.send();
+    var eightNumber = parseInt(eightSolr['response']['numFound']);
+
+    var nineSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?fq=subjectivity:[0.8%20TO%200.89999999999]&indent=on&q=*:*&wt=json", false); // the second parameter is for async
+        request.onload = () => {nineSolr = JSON.parse(request.responseText)}
+        request.send();
+    var nineNumber = parseInt(nineSolr['response']['numFound']);
+
+    var tenSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?fq=subjectivity:[0.9%20TO%201]&indent=on&q=*:*&wt=json", false); // the second parameter is for async
+        request.onload = () => {tenSolr = JSON.parse(request.responseText)}
+        request.send();
+    var tenNumber = parseInt(tenSolr['response']['numFound']);
+
+
+new Chart(document.getElementById("subChart"), {
+  type: 'bar',
+  data: {
+    labels: ["0",0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,"0.9-1"],
+    datasets: [{ 
+        data: [oneNumber,twoNumber,threeNumber,fourNumber,fiveNumber,sixNumber,sevenNumber,eightNumber,nineNumber,tenNumber],
+        label: "Subjectivity",
+        borderColor: "#3e95cd",
+        fill: false
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: '# of Tweets by subjectivity'
+    }
+  }
+});
+
+    var negSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?fq=polarity:[*%20TO%200}&indent=on&q=*:*&wt=json", false); // the second parameter is for async
+        request.onload = () => {negSolr = JSON.parse(request.responseText)}
+        request.send();
+    var negNumber = parseInt(negSolr['response']['numFound']);
+
+        var neuSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=polarity:0.0&wt=json", false); // the second parameter is for async
+        request.onload = () => {neuSolr = JSON.parse(request.responseText)}
+        request.send();
+    var neuNumber = parseInt(neuSolr['response']['numFound']);
+    var posSolr;
+    request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=polarity:{0.0%20TO%201]&wt=json", false); // the second parameter is for async
+        request.onload = () => {posSolr = JSON.parse(request.responseText)}
+        request.send();
+    var posNumber = parseInt(posSolr['response']['numFound']);
+
+var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["Negative", "Neutral", "Positive"],
+        datasets: [{
+            label: '# of tweets',
+            data: [negNumber, neuNumber, posNumber],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+</script>
+        
+ 
+</body>
+</html>

@@ -11,8 +11,24 @@ var trendingtopics = function(topic) {
 	}
     });
 };
-				  
-     
+
+
+
+var drawworldcloud = function(words){
+    $('#list').empty();
+
+    for (var i = 0; i < words.length; i++) {
+        var word = words[i];
+        word[1] *= 50;
+    }
+
+    var canvas = $('<canvas>');
+    $('#list').append(canvas);
+
+    WordCloud(canvas[0], { list: words });
+}
+
+
 
 var draw = function(topic){
     $('#list').empty()
@@ -35,10 +51,28 @@ var draw = function(topic){
 	    var line = $('<hr>');
 	    var text1 = $('<p>').text(info);
 	    var text2 = $('<p>').text(tweet.translation);
-	    $('#list').append(line, text1, text2)
+            var topicbutton = $('<button>').text("Word Cloud");
+	    $('#list').append(line, text1, text2, topicbutton);
+            topicbutton.click(function(){
+            $('#list').empty();
+
+            for (var i = 0; i < words.length; i++) {
+                var word = words[i];
+                word[1] *= 200;
+            }
+
+		var canvas = $('<canvas id="my_canvas" width="700" height="500">');
+            $('#list').append(canvas);
+
+		WordCloud(document.getElementById('my_canvas'), { list: words } );
+
+            });
 	}
 
     });
 
 
 }
+
+
+

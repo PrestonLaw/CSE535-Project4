@@ -23,10 +23,18 @@
 
     <H1> Trending Topics </H1>
 
+    <input type="radio" name="topic" value="politics"> Politics
+    <input type="radio" name="topic" value="environment"> Environment
+    <input type="radio" name="topic" value="crime"> Crime
+    <input type="radio" name="topic" value="infrastructure"> Infrastructure
+    <input type="radio" name="topic" value="social_unrest"> Social Unrest
+
+    <div id="list"\>
+    
     <script>
       var loadFunction = function() {
         console.log('loaded')
-        trendingtopics('social_unrest');
+        trendingtopics();
       }
     </script>
     

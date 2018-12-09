@@ -5,12 +5,22 @@
 
 
 var trendingtopics = function(topic) {
-    $('H1').text("Trending Topics: " + topic);
+    $('input[type="radio"]').click(function(){
+	if ($(this).is(':checked')) {
+	    draw($(this).val());
+	}
+    });
+};
+				  
+     
 
+var draw = function(topic){
+    $('#list').empty()
+    
     // Get the data
     d3.json("assets/data/trending_topics_"+topic+".json", function(error, data) {
 	if (error) throw error;
-
+	
 	for (var i= 0; i < data.length; i++) {
 	    var cluster = data[i];
 	    var count = cluster[0];
@@ -25,7 +35,7 @@ var trendingtopics = function(topic) {
 	    var line = $('<hr>');
 	    var text1 = $('<p>').text(info);
 	    var text2 = $('<p>').text(tweet.translation);
-	    $('body').append(line, text1, text2)
+	    $('#list').append(line, text1, text2)
 	}
 
     });

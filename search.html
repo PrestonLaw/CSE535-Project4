@@ -119,11 +119,24 @@ function search() {
         if(topic == "All") topic = "*";
          // send GET request
         let request = new XMLHttpRequest();
-        if(topic == "Social Unrest"){
+        if(cityProcessed == "mexico city")
+        {
+            if(topic == "Social Unrest"){
+            request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=topic:social%20unrest%20AND%20city:mexico%20city%20AND%20" + encodeURI(toSearch + "&fq=tweet_date:[" + fromDate.toISOString() + " TO " + toDate.toISOString() +"]"+  ' AND ' + 'tweet_lang:' + languageCode) + "&sort=score desc" + "&wt=json&rows=50", false); // the second parameter is for async
+        }
+        else{
+            request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=city:mexico%20city%20AND%20" + encodeURI(toSearch + "&fq=tweet_date:[" + fromDate.toISOString() + " TO " + toDate.toISOString() +"]" + ' AND ' + 'tweet_lang:' + languageCode + ' AND ' + ' topic: ' + topic.toLowerCase()) + "&sort=score desc" + "&wt=json&rows=50", false); // the second parameter is for async
+        }
+
+        }
+        else{
+            if(topic == "Social Unrest"){
             request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=topic:social%20unrest%20AND%20" + encodeURI(toSearch + "&fq=tweet_date:[" + fromDate.toISOString() + " TO " + toDate.toISOString() +"]"+  ' AND ' + 'city:' + cityProcessed +' AND ' + 'tweet_lang:' + languageCode) + "&sort=score desc" + "&wt=json&rows=50", false); // the second parameter is for async
         }
         else{
             request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=" + encodeURI(toSearch + "&fq=tweet_date:[" + fromDate.toISOString() + " TO " + toDate.toISOString() +"]" + ' AND ' + 'city:' + cityProcessed +' AND ' + 'tweet_lang:' + languageCode + ' AND ' + ' topic: ' + topic.toLowerCase()) + "&sort=score desc" + "&wt=json&rows=50", false); // the second parameter is for async
+        }
+
         }
         request.onload = () => {fromSolr = JSON.parse(request.responseText)}
         request.send();

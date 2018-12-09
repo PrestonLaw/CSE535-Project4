@@ -37,7 +37,7 @@ var get_all_tweets = function(callback, search_url, tweets=[], num=-1) {
     
     // limit the number of tweets
     if (tweets.length > 10000) {
-	console.log("Limiting the number of tweets returned.")
+	//console.log("Limiting the number of tweets returned.")
 	(callback)(tweets);
 	return;
     }
@@ -139,7 +139,7 @@ var draw = function(tweets) {
 
     // Loop through each symbol / key
     dataNest.forEach(function(d) {
-	console.log(d.key)
+	//console.log(d.key)
 	svg.append("path")
 	    .attr("class", "line")
 	    .style("stroke", function() { // Add dynamically

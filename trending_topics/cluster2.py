@@ -181,25 +181,26 @@ def normalize_centers(centers):
 
 
 
-def find_closest_tweet(tweets, center):
+def find_closest_tweet(tweets, cluster_id, center):
     """
     compute_tweet_vectors must be called first.
     """
     best_tweet = None
     best_dot = 0.0
     for tweet in tweets:
-        v = tweet['vector']
-        v_mag = tweet['vector_magnitude']
-        if v_mag == 0:
-            continue
-        dot = 0.0
-        for word_idx in v:
-            # dot product for cosine similarity
-            dot += center[word_idx]
-        dot = dot / v_mag
-        if dot > best_dot:
-            best_dot = dot
-            best_tweet = tweet
+        if tweet['cluster'] == cluster_id:
+            v = tweet['vector']
+            v_mag = tweet['vector_magnitude']
+            if v_mag == 0:
+                continue
+            dot = 0.0
+            for word_idx in v:
+                # dot product for cosine similarity
+                dot += center[word_idx]
+            dot = dot / v_mag
+            if dot > best_dot:
+                best_dot = dot
+                best_tweet = tweet
     return best_tweet
         
         
@@ -281,21 +282,25 @@ clusters.sort(key=lambda x:x[1], reverse=True)
 
 # Turn the vector into a list of words.
 clusters2 = []
-for cluster in clusters:
+
+
+# Save an array of clusters, each has the best tweet for each cluster, words and clusters size
+for cluster_idx in range(len(centers)):
+    cluster = clusters[cluster_idx]
     tweet_count = cluster[1]
     vector = cluster[0]
     words = [(w,vector[word_indexes[w]]) for w in word_indexes]
     words.sort(key=lambda t:t[1], reverse=True)
     words= words[0:1000]
-    best_tweet = find_closest_tweet(tweets, vector)
-    clusters2.append((tweet_count, words, tweet))
+    best_tweet = find_closest_tweet(tweets, cluster_idx, vector)
+    clusters2.append((tweet_count, words, best_tweet))
 
 
 clusters2.sort(key=lambda c:c[0], reverse=True)
 # Get the prototype tweet for each cluster. 
 
 
-filename = "trending_topics_%s.json"%topic
+filename = "trending_topics_%s.json"%topic.replace(' ', '_')
 with open(filename, 'w') as fp:
     json.dump(clusters2, fp)
 

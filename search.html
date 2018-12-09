@@ -11,7 +11,15 @@
 <body>
 <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Solr search</a>
-</nav>
+    <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link " data-toggle="pill" href="search.html">Search</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="pill" href="index.html">Statistics</a>
+            </li>
+          </ul>
+          </nav>
 
 <div class="container">
     <form method="POST">
@@ -78,6 +86,11 @@
 <p><i>Info: </i></p>
 <label name="statusDisplay-textarea" id="infoDisplay"></label>
 <canvas id="myChart" width="200px" height="200px"></canvas>
+<canvas id="subChart" width="200px" height="200px"></canvas>
+<canvas id="topicChart" width="200px" height="200px"></canvas>
+<canvas id="langChart" width="200px" height="200px"></canvas>
+<canvas id="cityChart" width="200px" height="200px"></canvas>
+
 
 </div>
     </div>
@@ -94,7 +107,7 @@ function search() {
     var tempTo = document.getElementById("toDate").value;
     if(tempFrom == "From" || tempTo == "To" || topic == "")
     {
-        alert("")
+        alert("Error");
     }
     else
     {
@@ -106,7 +119,12 @@ function search() {
         if(topic == "All") topic = "*";
          // send GET request
         let request = new XMLHttpRequest();
-        request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=" + encodeURI(toSearch + ' AND ' + 'city:' + cityProcessed +' AND ' + 'tweet_lang:' + languageCode + ' AND ' + ' topic: ' + topic.toLowerCase()+ "&fq=tweet_date:[" + fromDate.toISOString() + " TO " + toDate.toISOString() +"]") + "&sort=score desc" + "&wt=json", false); // the second parameter is for async
+        if(topic == "Social Unrest"){
+            request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=topic:social%20unrest%20AND%20" + encodeURI(toSearch + "&fq=tweet_date:[" + fromDate.toISOString() + " TO " + toDate.toISOString() +"]"+  ' AND ' + 'city:' + cityProcessed +' AND ' + 'tweet_lang:' + languageCode) + "&sort=score desc" + "&wt=json&rows=50", false); // the second parameter is for async
+        }
+        else{
+            request.open("GET", "http://wsi9.slide-atlas.org/search/solr/p4/select?indent=on&q=" + encodeURI(toSearch + "&fq=tweet_date:[" + fromDate.toISOString() + " TO " + toDate.toISOString() +"]" + ' AND ' + 'city:' + cityProcessed +' AND ' + 'tweet_lang:' + languageCode + ' AND ' + ' topic: ' + topic.toLowerCase()) + "&sort=score desc" + "&wt=json&rows=50", false); // the second parameter is for async
+        }
         request.onload = () => {fromSolr = JSON.parse(request.responseText)}
         request.send();
         var count = 1;
@@ -116,13 +134,138 @@ function search() {
         var neutral = 0;
         var negative = 0;
         var positive = 0;
+
+        var one = 0;
+        var two = 0;
+        var three = 0;
+        var four = 0;
+        var five = 0;
+        var six = 0;
+        var seven = 0;
+        var eight = 0;
+        var nine = 0;
+        var ten = 0; 
+        var eleven = 0;
+
+        var crimeNumber = 0;
+        var politicsNumber = 0;
+        var socialNumber = 0;
+        var infraNumber = 0;
+        var envNumber = 0;
+
+        var english = 0;
+        var french = 0;
+        var spanish = 0;
+        var thai = 0;
+        var hindi = 0;
+
+        var nyc = 0;
+        var paris = 0;
+        var bangkok = 0;
+        var delhi = 0;
+        var mexico = 0;
+
         fromSolr['response']['docs'].forEach(function(doc){
             tweetPolarity = parseFloat(doc["polarity"]);
             addAllPolarity = addAllPolarity + tweetPolarity;
             if(tweetPolarity > 0) positive++;
             if(tweetPolarity < 0) negative++;
             if(tweetPolarity == 0) neutral++;
+            switch(doc["topic"][0]){
+                case "politics": 
+                    politicsNumber++;
+                    break;
+                case "crime": 
+                    crimeNumber++;
+                    break;
+                case "social unrest": 
+                    socialNumber++;
+                    break;
+                case "environment": 
+                    envNumber++;
+                    break;
+                case "infrastructure": 
+                    infraNumber++;
+                    break;
+            }
+            switch(doc["city"][0]){
+                case "nyc": 
+                    nyc++;
+                    break;
+                case "paris": 
+                    paris++;
+                    break;
+                case "delhi": 
+                    delhi++;
+                    break;
+                case "mexico city": 
+                    mexico++;
+                    break;
+                case "bangkok": 
+                    bangkok++;
+                    break;
+            }
+
+            switch(doc["tweet_lang"][0]){
+                case "en": 
+                    english++;
+                    break;
+                case "fr": 
+                    french++;
+                    break;
+                case "es": 
+                    spanish++;
+                    break;
+                case "th": 
+                    thai++;
+                    break;
+                case "hi": 
+                    hindi++;
+                    break;
+            }
             addAllSubjectivity = addAllSubjectivity + parseFloat(doc["subjectivity"]);
+
+            if(parseFloat(doc["subjectivity"]) < 0.1)
+            {
+                one++;
+            }
+            else if(0.1 <= parseFloat(doc["subjectivity"]) < 0.2)
+            {
+                two++;
+            }
+            else if(0.2 <= parseFloat(doc["subjectivity"]) < 0.3)
+            {
+                three++;
+            }
+            else if(0.3 <= parseFloat(doc["subjectivity"]) < 0.4)
+            {
+                four++;
+            }
+            else if(0.4 <= parseFloat(doc["subjectivity"]) < 0.5)
+            {
+                five++;
+            }
+            else if(0.5 <= parseFloat(doc["subjectivity"]) < 0.6)
+            {
+                six++;
+            }
+            else if(0.6 <= parseFloat(doc["subjectivity"]) < 0.7)
+            {
+                seven++;
+            }
+            else if(0.7 <= parseFloat(doc["subjectivity"]) < 0.8)
+            {
+                nine++;
+            }
+            else if(0.8 <= parseFloat(doc["subjectivity"]) < 0.9)
+            {
+                ten++;
+            }
+            else if(0.9 <= parseFloat(doc["subjectivity"]))
+            {
+                eleven++;
+            }
+
             var pd2 = document.getElementById("resultDisplay").innerHTML;
             if(doc["tweet_urls"] == undefined){
                 if(doc["tweet_lang"] == "en")
@@ -181,6 +324,37 @@ var myChart = new Chart(ctx, {
         }]
     },
     options: {
+        title: {
+      display: true,
+      text: '# of Tweets by polarity'
+    },
+
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+var chartLoc = document.getElementById("subChart").getContext('2d');
+var subChart = new Chart(chartLoc, {
+    type: 'bar',
+    data: {
+        labels: ["0", "0.1", "0.2","0.3","0.4","0.5","0.6","0.7","0.8","0.9-1"],
+        datasets: [{
+            label: '# of tweets',
+            data: [one, two, three,four,five,six,seven,nine,ten,eleven],
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850",'rgba(255,99,132,1)','rgba(54, 162, 235, 1)','rgba(153, 102, 255, 1)','rgba(255, 206, 86, 1)','rgba(255, 159, 64, 1)'],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        title: {
+      display: true,
+      text: '# of Tweets by subjectivity'
+    },
         scales: {
             yAxes: [{
                 ticks: {
@@ -191,10 +365,65 @@ var myChart = new Chart(ctx, {
     }
 });
 
+    new Chart(document.getElementById("topicChart"), {
+    type: 'pie',
+    data: {
+      labels: ["Crime", "Politics", "Social Unrest", "Infrastructure", "Environment"],
+      datasets: [{
+        label: "# of Tweets",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9",'rgba(255,99,132,1)'],
+        data: [crimeNumber,politicsNumber,socialNumber,infraNumber,envNumber]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: '# of tweets by topic'
+      }
+    }
+});
+
+    new Chart(document.getElementById("langChart"), {
+    type: 'pie',
+    data: {
+      labels: ["English", "French", "Spanish", "Thai", "Hindi"],
+      datasets: [{
+        label: "# of Tweets",
+        backgroundColor: ['rgba(255,99,132,1)','rgba(54, 162, 235, 1)','rgba(153, 102, 255, 1)','rgba(255, 206, 86, 1)','rgba(255, 159, 64, 1)'],
+        data: [english,french,spanish,thai,hindi]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: '# of tweets by language'
+      }
+    }
+});
+
+    new Chart(document.getElementById("cityChart"), {
+    type: 'pie',
+    data: {
+      labels: ["New York City", "Paris", "Bangkok", "Delhi", "Mexico City"],
+      datasets: [{
+        label: "# of Tweets",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f",'rgba(255, 206, 86, 1)','rgba(255, 159, 64, 1)'],
+        data: [nyc,paris,bangkok,delhi,mexico]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: '# of tweets by city'
+      }
+    }
+});
+
+
+
+
     }
 }
-
-
 function processLang(input) {
     switch(input){
         case "English":
@@ -246,7 +475,6 @@ function processCity(input) {
             return "ERR";
     }
 }
-
 </script>
 </body>
 </html>

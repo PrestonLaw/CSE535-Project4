@@ -269,7 +269,7 @@ new Chart(document.getElementById("subChart"), {
     datasets: [{ 
         data: [oneNumber,twoNumber,threeNumber,fourNumber,fiveNumber,sixNumber,sevenNumber,eightNumber,nineNumber,tenNumber],
         label: "Subjectivity",
-        borderColor: "#3e95cd",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850",'rgba(255,99,132,1)','rgba(54, 162, 235, 1)','rgba(153, 102, 255, 1)','rgba(255, 206, 86, 1)','rgba(255, 159, 64, 1)'],
         fill: false
       }
     ]
@@ -327,6 +327,10 @@ var myChart = new Chart(ctx, {
         }]
     },
     options: {
+        title: {
+      display: true,
+      text: '# of Tweets by polarity'
+    },
         scales: {
             yAxes: [{
                 ticks: {
@@ -342,3 +346,4 @@ var myChart = new Chart(ctx, {
  
 </body>
 </html>
+

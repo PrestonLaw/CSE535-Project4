@@ -26,8 +26,30 @@ var drawworldcloud = function(words){
     $('#list').append(canvas);
 
     WordCloud(canvas[0], { list: words });
-}
+};
 
+
+var bind_topic_button = function(topicbutton, words) {
+    topicbutton.click(function(){
+	$('#list').empty();
+	//var lmax = Math.log(words[0][1]);
+	//var lmin = Math.log(words[180][1]);
+	var lmax = words[0][1];
+	var lmin = words[180][1];
+	var a = (90-12)/(lmax - lmin);
+	var b = 90 - (lmax*a)
+	
+	for (var i = 0; i < words.length; i++) {
+            var word = words[i];
+            //word[1] = Math.log(word[1])*a + b;
+            word[1] = word[1]*a + b;
+	}
+
+	var canvas = $('<canvas id="my_canvas" width="700" height="500">');
+	$('#list').append(canvas);
+	WordCloud(document.getElementById('my_canvas'), { list: words } );
+    });
+};
 
 
 var draw = function(topic){
@@ -52,25 +74,12 @@ var draw = function(topic){
 	    var text1 = $('<p>').text(info);
 	    var text2 = $('<p>').text(tweet.translation);
             var topicbutton = $('<button>').text("Word Cloud");
+	    bind_topic_button(topicbutton, words);
 	    $('#list').append(line, text1, text2, topicbutton);
-            topicbutton.click(function(){
-              $('#list').empty();
-
-              for (var i = 0; i < words.length; i++) {
-                  var word = words[i];
-                  word[1] = Math.log(word[1]) * 250;
-              }
-
-	      var canvas = $('<canvas id="my_canvas" width="700" height="500">');
-              $('#list').append(canvas);
-              WordCloud(document.getElementById('my_canvas'), { list: words } );
-            });
 	}
 
     });
-
-
-}
+};
 
 
 

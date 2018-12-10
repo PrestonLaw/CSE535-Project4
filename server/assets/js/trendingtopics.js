@@ -54,18 +54,16 @@ var draw = function(topic){
             var topicbutton = $('<button>').text("Word Cloud");
 	    $('#list').append(line, text1, text2, topicbutton);
             topicbutton.click(function(){
-            $('#list').empty();
+              $('#list').empty();
 
-            for (var i = 0; i < words.length; i++) {
-                var word = words[i];
-                word[1] *= 200;
-            }
+              for (var i = 0; i < words.length; i++) {
+                  var word = words[i];
+                  word[1] = Math.log(word[1]) * 250;
+              }
 
-		var canvas = $('<canvas id="my_canvas" width="700" height="500">');
-            $('#list').append(canvas);
-
-		WordCloud(document.getElementById('my_canvas'), { list: words } );
-
+	      var canvas = $('<canvas id="my_canvas" width="700" height="500">');
+              $('#list').append(canvas);
+              WordCloud(document.getElementById('my_canvas'), { list: words } );
             });
 	}
 

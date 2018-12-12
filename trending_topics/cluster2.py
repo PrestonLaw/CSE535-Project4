@@ -222,8 +222,7 @@ topic = sys.argv[1]
 print(topic)
 
 
-filename = "/home/claw/Preston/all_tweets.json"
-#filename = "/home/claw/Preston/small_tweets.json"
+filename = "/home/preston/all_tweets.json"
 with open(filename, 'r') as fp:
     all_tweets = json.load(fp)
 random.shuffle(all_tweets)
